@@ -1,15 +1,15 @@
 import sys
 import time
 from socket import *
+from argparse import ArgumentParser
 
+parser = ArgumentParser()
+parser.add_argument('-a', '--address', required=True, dest='address', help='server.py -a <address> [-p <port>]')
+parser.add_argument('-p', '--port', required=False, dest='port')
+args = parser.parse_args()
 
-if len(sys.argv) < 2:
-    print("Неверно заданы параметры запуска: server.py <address> [:port]")
-    sys.exit(1)
-
-
-address = sys.argv[1]
-port = int(sys.argv[2]) if len(sys.argv) == 3 else 3333
+address = args.address
+port = int(args.port) if args.port != None else 7777
 
 server_socket = socket(AF_INET, SOCK_STREAM)
 server_socket.bind((address, port))
